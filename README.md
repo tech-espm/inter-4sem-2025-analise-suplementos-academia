@@ -12,7 +12,10 @@
 
 ## Participantes
 
-- [Nome](https://github.com/xxx)
+- [Guilherme Orlandi de Oliveira](https://github.com/carrico05)
+- [Luis Felipe Galina Degaspari](https://github.com/luisdegaspari)
+- [Luiz Felipe Pimenta Berrettini](https://github.com/pimentabrrt)
+- [Luiz Fernando Pazdziora Costa](https://github.com/luizpazdziora)
 
 ## Objetivos do Projeto
 
