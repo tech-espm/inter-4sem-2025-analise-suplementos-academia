@@ -2,163 +2,381 @@
 
 {% block body %}
 
-<div class="container-fluid">
+<body class="bg-primary font-lato">
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-br from-primary via-secondary to-surface py-20">
+        <div class="absolute inset-0 bg-gradient-to-r from-accent/5 to-transparent"></div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Hero Content -->
+                <div class="text-center lg:text-left">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-montserrat font-bold text-text-primary mb-6 leading-tight">
+                        Inteligência de Mercado para 
+                        <span class="text-accent">Suplementos</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-text-secondary mb-8 leading-relaxed max-w-2xl">
+                        Otimize suas decisões de negócio com análises abrangentes de popularidade de produtos, estratégias de preços e posicionamento competitivo no mercado brasileiro de suplementos.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <a href="{{ url_for('dashboard') }}" class="bg-accent text-primary px-8 py-4 rounded-lg font-montserrat font-semibold text-lg hover:bg-blue-500 transition-standard shadow-card hover:shadow-card-hover interactive-element">
+                            Acessar Dashboard
+                        </a>
+                        <a href="{{ url_for('sobre') }}" class="border-2 border-accent text-accent px-8 py-4 rounded-lg font-montserrat font-semibold text-lg hover:bg-accent hover:text-primary transition-standard">
+                            Saiba Mais
+                        </a>
+                    </div>
+                    
+                    <!-- Trust Indicators -->
+                    <div class="mt-12 flex flex-wrap items-center justify-center lg:justify-start gap-6">
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-5 h-5 text-success" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-text-secondary font-medium">Certificado CNPJ</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-5 h-5 text-success" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-text-secondary font-medium">Dados Seguros</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-5 h-5 text-success" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-text-secondary font-medium">Mercado Brasileiro</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Hero Image -->
+                <div class="relative">
+                    <div class="relative overflow-hidden rounded-xl shadow-card-hover">
+                        <img src="https://images.unsplash.com/photo-1733877687392-7aa39d980a7f" 
+                             alt="Dashboard de análise de dados mostrando gráficos e métricas de performance de suplementos" 
+                             class="w-full h-96 lg:h-[500px] object-cover"
+                             loading="lazy"
+                             onerror="this.src='https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;">
+                    </div>
+                    <!-- Floating Stats Cards -->
+                    <div class="absolute -bottom-6 -left-6 bg-primary p-4 rounded-lg shadow-card-hover animate-fade-in">
+                        <div class="text-2xl font-montserrat font-bold text-accent">15K+</div>
+                        <div class="text-sm text-text-secondary">Produtos Analisados</div>
+                    </div>
+                    <div class="absolute -top-6 -right-6 bg-primary p-4 rounded-lg shadow-card-hover animate-fade-in">
+                        <div class="text-2xl font-montserrat font-bold text-success">98%</div>
+                        <div class="text-sm text-text-secondary">Precisão dos Dados</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-	<h1>
-		Projeto
-	</h1>
+    <!-- Features Overview Section -->
+    <section class="py-20 bg-primary">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-montserrat font-bold text-text-primary mb-4">
+                    Recursos Principais
+                </h2>
+                <p class="text-lg text-text-secondary max-w-3xl mx-auto">
+                    Ferramentas avançadas de análise para maximizar o desempenho dos seus produtos no mercado de suplementos
+                </p>
+            </div>
+            
+            <!-- Features Grid -->
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Feature 1: Interactive Filtering -->
+                <div class="bg-surface p-8 rounded-xl shadow-card hover:shadow-card-hover transition-standard interactive-element">
+                    <div class="w-16 h-16 bg-accent/10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-montserrat font-semibold text-text-primary mb-4">
+                        Filtragem Interativa
+                    </h3>
+                    <p class="text-text-secondary leading-relaxed mb-6">
+                        Sistema avançado de filtros múltiplos para segmentar produtos por categoria, preço, avaliações e popularidade com interface intuitiva.
+                    </p>
+                    <ul class="space-y-2">
+                        <li class="flex items-center text-sm text-text-secondary">
+                            <svg class="w-4 h-4 text-success mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            Filtros por categoria e subcategoria
+                        </li>
+                        <li class="flex items-center text-sm text-text-secondary">
+                            <svg class="w-4 h-4 text-success mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            Busca avançada por texto
+                        </li>
+                        <li class="flex items-center text-sm text-text-secondary">
+                            <svg class="w-4 h-4 text-success mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            Salvamento de filtros personalizados
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Feature 2: Comprehensive Analytics -->
+                <div class="bg-surface p-8 rounded-xl shadow-card hover:shadow-card-hover transition-standard interactive-element">
+                    <div class="w-16 h-16 bg-accent/10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-montserrat font-semibold text-text-primary mb-4">
+                        Análises Abrangentes
+                    </h3>
+                    <p class="text-text-secondary leading-relaxed mb-6">
+                        Visualizações detalhadas de correlação preço-popularidade, distribuição de avaliações e métricas de performance com gráficos interativos.
+                    </p>
+                    <ul class="space-y-2">
+                        <li class="flex items-center text-sm text-text-secondary">
+                            <svg class="w-4 h-4 text-success mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            Gráficos de correlação preço vs popularidade
+                        </li>
+                        <li class="flex items-center text-sm text-text-secondary">
+                            <svg class="w-4 h-4 text-success mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            Distribuição de avaliações por estrelas
+                        </li>
+                        <li class="flex items-center text-sm text-text-secondary">
+                            <svg class="w-4 h-4 text-success mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            Métricas de recomendação
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Feature 3: Competitive Insights -->
+                <div class="bg-surface p-8 rounded-xl shadow-card hover:shadow-card-hover transition-standard interactive-element">
+                    <div class="w-16 h-16 bg-accent/10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-montserrat font-semibold text-text-primary mb-4">
+                        Insights Competitivos
+                    </h3>
+                    <p class="text-text-secondary leading-relaxed mb-6">
+                        Análise comparativa de posicionamento no mercado, tendências de crescimento e oportunidades de diferenciação competitiva.
+                    </p>
+                    <ul class="space-y-2">
+                        <li class="flex items-center text-sm text-text-secondary">
+                            <svg class="w-4 h-4 text-success mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            Análise comparativa de produtos
+                        </li>
+                        <li class="flex items-center text-sm text-text-secondary">
+                            <svg class="w-4 h-4 text-success mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            Visualização de tendências
+                        </li>
+                        <li class="flex items-center text-sm text-text-secondary">
+                            <svg class="w-4 h-4 text-success mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            Exportação de relatórios
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
 
-	<div class="row">
-		<div class="col-sm-4">
+    <!-- Testimonials Section -->
+    <section class="py-20 bg-surface">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-montserrat font-bold text-text-primary mb-4">
+                    O que dizem nossos clientes
+                </h2>
+                <p class="text-lg text-text-secondary max-w-3xl mx-auto">
+                    Profissionais da indústria de suplementos que transformaram seus negócios com nossa plataforma
+                </p>
+            </div>
+            
+            <!-- Testimonials Grid -->
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-primary p-8 rounded-xl shadow-card hover:shadow-card-hover transition-standard">
+                    <div class="flex items-center mb-6">
+                        <img src="https://images.unsplash.com/photo-1724624119425-63c1efacfb14" 
+                             alt="Foto de perfil de Carlos Silva, gerente de marca na NutriMax Brasil" 
+                             class="w-12 h-12 rounded-full object-cover mr-4"
+                             loading="lazy"
+                             onerror="this.src='https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;">
+                        <div>
+                            <div class="font-montserrat font-semibold text-text-primary">Carlos Silva</div>
+                            <div class="text-sm text-text-secondary">Gerente de Marca - NutriMax Brasil</div>
+                        </div>
+                    </div>
+                    <div class="flex mb-4">
+                        <svg class="w-5 h-5 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                        <svg class="w-5 h-5 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                        <svg class="w-5 h-5 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                        <svg class="w-5 h-5 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                        <svg class="w-5 h-5 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                    </div>
+                    <p class="text-text-secondary leading-relaxed">
+                        "A plataforma revolucionou nossa estratégia de precificação. Conseguimos identificar oportunidades de mercado que aumentaram nossa receita em 35% no último trimestre."
+                    </p>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="bg-primary p-8 rounded-xl shadow-card hover:shadow-card-hover transition-standard">
+                    <div class="flex items-center mb-6">
+                        <img src="https://images.unsplash.com/photo-1692073634685-99d014ee1499" 
+                             alt="Foto de perfil de Ana Costa, proprietária da VitalSupp" 
+                             class="w-12 h-12 rounded-full object-cover mr-4"
+                             loading="lazy"
+                             onerror="this.src='https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;">
+                        <div>
+                            <div class="font-montserrat font-semibold text-text-primary">Ana Costa</div>
+                            <div class="text-sm text-text-secondary">Proprietária - VitalSupp</div>
+                        </div>
+                    </div>
+                    <div class="flex mb-4">
+                        <svg class="w-5 h-5 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                        <svg class="w-5 h-5 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                        <svg class="w-5 h-5 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                        <svg class="w-5 h-5 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                        <svg class="w-5 h-5 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                    </div>
+                    <p class="text-text-secondary leading-relaxed">
+                        "Interface intuitiva e dados precisos. Como proprietária de uma pequena empresa, consigo tomar decisões informadas sem precisar de uma equipe de analistas."
+                    </p>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="bg-primary p-8 rounded-xl shadow-card hover:shadow-card-hover transition-standard">
+                    <div class="flex items-center mb-6">
+                        <img src="https://images.unsplash.com/photo-1481188131568-2eff0e249364" 
+                             alt="Foto de perfil de Roberto Santos, analista de dados na FitNutrition" 
+                             class="w-12 h-12 rounded-full object-cover mr-4"
+                             loading="lazy"
+                             onerror="this.src='https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;">
+                        <div>
+                            <div class="font-montserrat font-semibold text-text-primary">Roberto Santos</div>
+                            <div class="text-sm text-text-secondary">Analista de Dados - FitNutrition</div>
+                        </div>
+                    </div>
+                    <div class="flex mb-4">
+                        <svg class="w-5 h-5 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                        <svg class="w-5 h-5 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                        <svg class="w-5 h-5 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                        <svg class="w-5 h-5 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                        <svg class="w-5 h-5 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                    </div>
+                    <p class="text-text-secondary leading-relaxed">
+                        "Ferramenta essencial para análise competitiva. Os relatórios detalhados e visualizações me permitem apresentar insights claros para a diretoria."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-			<div class="card shadow my-4">
-				<div class="card-body">
-					<form id="form">
-						<div class="form-group">
-							<label for="data">Data</label>
-							<input id="data" name="data" class="form-control" type="date" value="{{ hoje }}" />
-						</div>
+    <!-- Newsletter Section -->
+    <section class="py-20 bg-accent">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl md:text-4xl font-montserrat font-bold text-primary mb-4">
+                Mantenha-se Atualizado
+            </h2>
+            <p class="text-lg text-primary/90 mb-8 max-w-2xl mx-auto">
+                Receba insights semanais sobre tendências do mercado de suplementos e atualizações da plataforma
+            </p>
+            
+            <!-- Newsletter Form -->
+            <form class="max-w-md mx-auto">
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <input type="email" 
+                           placeholder="Seu melhor e-mail" 
+                           class="flex-1 px-4 py-3 rounded-lg border-0 focus:ring-2 focus:ring-primary focus:outline-none text-text-primary"
+                           required>
+                    <button type="submit" 
+                            class="bg-primary text-accent px-6 py-3 rounded-lg font-montserrat font-semibold hover:bg-gray-50 transition-standard whitespace-nowrap">
+                        Inscrever-se
+                    </button>
+                </div>
+                <p class="text-sm text-primary/80 mt-3">
+                    Sem spam. Cancele a qualquer momento.
+                </p>
+            </form>
+        </div>
+    </section>
 
-						<button type="submit" class="btn btn-primary">Listar</button>
-					</form>
-				</div>
-			</div>
+    
 
-		</div>
-	</div>
+    <!-- Mobile Menu Script -->
+    <script>
+        // Newsletter form submission
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            if (email) {
+                alert('Obrigado por se inscrever! Você receberá nossos insights em breve.');
+                this.reset();
+            }
+        });
 
-	<div class="card shadow my-4">
-		<div class="card-body" id="div-grafico"></div>
-	</div>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+	<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
 
-</div>
-
-<script src="/static/js/jquery-validate/jquery.validate.min.js"></script>
-<script src="/static/js/jquery-validate/additional-methods.min.js"></script>
-<script src="/static/js/jquery-validate/localization/messages_pt_BR.min.js"></script>
-<script type="text/javascript" src="/static/js/chart.js/chart.min.js"></script>
-
-<script type="text/javascript">
-	"use strict";
-
-	$("#form").validate({
-		rules: {
-			data: {
-				required: true
-			}
-		},
-		submitHandler: function () {
-			atualizarDados();
-		}
-	});
-
-	async function atualizarDados() {
-		waitSwal();
-
-		try {
-
-			let response = await fetch("/obterDados");
-
-			if (response.ok) {
-
-				Swal.close();
-
-				let div = document.getElementById("div-grafico");
-				div.innerHTML = '<canvas id="grafico-barras" style="height: 50vh;"></canvas>';
-
-				let labels = [], data = [];
-
-				let dados = await response.json();
-				if (!dados || !dados.length) {
-					Swal.fire("Erro", "Sem dados na data especificada!", "error");
-					return;
-				}
-
-				for (let i = 0; i < dados.length; i++) {
-					labels.push(dados[i].dia);
-					data.push(dados[i].valor);
-				}
-
-				let grafico = new Chart(document.getElementById("grafico-barras"), {
-					type: "bar",
-					data: {
-						labels: labels,
-						datasets: [{
-							label: "Valor",
-							backgroundColor: "#4e73df",
-							hoverBackgroundColor: "#2e59d9",
-							borderColor: "#4e73df",
-							data: data,
-						}],
-					},
-					options: {
-						maintainAspectRatio: false,
-						layout: {
-							padding: {
-								left: 10,
-								right: 25,
-								top: 25,
-								bottom: 0
-							}
-						},
-						scales: {
-							x: {
-								gridLines: {
-									display: false,
-									drawBorder: false
-								},
-								ticks: {
-									maxTicksLimit: 10
-								},
-								maxBarThickness: 25,
-							},
-							y: {
-								//display: false,
-								ticks: {
-									min: 0,
-									max: 10,
-									maxTicksLimit: 10,
-									padding: 10
-								},
-								gridLines: {
-									color: "rgb(234, 236, 244)",
-									zeroLineColor: "rgb(234, 236, 244)",
-									drawBorder: false,
-									borderDash: [2],
-									zeroLineBorderDash: [2]
-								}
-							},
-						},
-						legend: {
-							display: false
-						},
-						tooltips: {
-							titleMarginBottom: 10,
-							titleFontColor: '#6e707e',
-							titleFontSize: 14,
-							backgroundColor: "rgb(255,255,255)",
-							bodyFontColor: "#858796",
-							borderColor: '#dddfeb',
-							borderWidth: 1,
-							xPadding: 15,
-							yPadding: 15,
-							displayColors: false,
-							caretPadding: 10
-						},
-					}
-				});
-
-			} else {
-				await exibirErro(response);
-			}
-
-		} catch (ex) {
-			Swal.fire("Erro", "Erro ao listar os dados: " + ex.message, "error");
-		}
-	}
-
-	atualizarDados();
-
-</script>
+</body>
 
 {% endblock %}

@@ -1,0 +1,806 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<body class="bg-primary font-lato">
+    <!-- Dashboard Header -->
+    <section class="bg-surface py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                <div>
+                    <h1 class="text-3xl font-montserrat font-bold text-text-primary mb-2">
+                        Dashboard de Análise
+                    </h1>
+                    <p class="text-text-secondary">
+                        Última atualização: 27 de outubro de 2025, 11:12
+                    </p>
+                </div>
+                <div class="mt-4 md:mt-0 flex flex-col sm:flex-row gap-3">
+                    <button class="bg-accent text-primary px-4 py-2 rounded-md font-montserrat font-semibold hover:bg-blue-500 transition-standard interactive-element">
+                        <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        Exportar Dados
+                    </button>
+                    <button class="border border-accent text-accent px-4 py-2 rounded-md font-montserrat font-semibold hover:bg-accent hover:text-primary transition-standard">
+                        <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                        Atualizar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filters Section -->
+    <section class="bg-primary py-6 border-b border-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Filter Toggle for Mobile -->
+            <div class="md:hidden mb-4">
+                <button id="filter-toggle" class="w-full bg-surface px-4 py-3 rounded-lg flex items-center justify-between text-text-primary font-medium">
+                    <span>Filtros de Busca</span>
+                    <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Filter Panel -->
+            <div id="filter-panel" class="hidden md:block">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <!-- Search Filter -->
+                    <div>
+                        <label class="block text-sm font-medium text-text-primary mb-2">Buscar Produto</label>
+                        <div class="relative">
+                            <input type="text" 
+                                   id="search-input"
+                                   placeholder="Nome do produto..." 
+                                   class="w-full px-4 py-2 pl-10 border border-border rounded-md focus:ring-2 focus:ring-accent focus:border-accent transition-standard">
+                            <svg class="w-4 h-4 text-text-secondary absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Category Filter -->
+                    <div>
+                        <label class="block text-sm font-medium text-text-primary mb-2">Categoria</label>
+                        <select id="category-filter" class="w-full px-4 py-2 border border-border rounded-md focus:ring-2 focus:ring-accent focus:border-accent transition-standard">
+                            <option value="">Todas as categorias</option>
+                            <option value="proteinas">Proteínas</option>
+                            <option value="creatina">Creatina</option>
+                            <option value="pre-treino">Pré-treino</option>
+                            <option value="vitaminas">Vitaminas</option>
+                            <option value="aminoacidos">Aminoácidos</option>
+                            <option value="queimadores">Queimadores de Gordura</option>
+                        </select>
+                    </div>
+
+                    <!-- Price Range Filter -->
+                    <div>
+                        <label class="block text-sm font-medium text-text-primary mb-2">Faixa de Preço</label>
+                        <select id="price-filter" class="w-full px-4 py-2 border border-border rounded-md focus:ring-2 focus:ring-accent focus:border-accent transition-standard">
+                            <option value="">Todos os preços</option>
+                            <option value="0-50">R$ 0 - R$ 50</option>
+                            <option value="50-100">R$ 50 - R$ 100</option>
+                            <option value="100-200">R$ 100 - R$ 200</option>
+                            <option value="200+">R$ 200+</option>
+                        </select>
+                    </div>
+
+                    <!-- Rating Filter -->
+                    <div>
+                        <label class="block text-sm font-medium text-text-primary mb-2">Avaliação Mínima</label>
+                        <select id="rating-filter" class="w-full px-4 py-2 border border-border rounded-md focus:ring-2 focus:ring-accent focus:border-accent transition-standard">
+                            <option value="">Todas as avaliações</option>
+                            <option value="4">4+ estrelas</option>
+                            <option value="3">3+ estrelas</option>
+                            <option value="2">2+ estrelas</option>
+                            <option value="1">1+ estrela</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Filter Actions -->
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <button id="apply-filters" class="bg-accent text-primary px-6 py-2 rounded-md font-montserrat font-semibold hover:bg-blue-500 transition-standard interactive-element">
+                        Aplicar Filtros
+                    </button>
+                    <button id="reset-filters" class="border border-border text-text-secondary px-6 py-2 rounded-md font-montserrat font-semibold hover:bg-surface transition-standard">
+                        Limpar Filtros
+                    </button>
+                    <button id="save-filters" class="border border-accent text-accent px-6 py-2 rounded-md font-montserrat font-semibold hover:bg-accent hover:text-primary transition-standard">
+                        Salvar Filtros
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Dashboard Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Key Metrics Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- Total Products -->
+            <div class="bg-surface p-6 rounded-xl shadow-card hover:shadow-card-hover transition-standard">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-text-secondary text-sm font-medium">Total de Produtos</p>
+                        <p class="text-2xl font-montserrat font-bold text-text-primary">15.247</p>
+                        <p class="text-success text-sm mt-1">+12% vs mês anterior</p>
+                    </div>
+                    <div class="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4-8-4m16 0v10l-8 4-8-4V7"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Average Price -->
+            <div class="bg-surface p-6 rounded-xl shadow-card hover:shadow-card-hover transition-standard">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-text-secondary text-sm font-medium">Preço Médio</p>
+                        <p class="text-2xl font-montserrat font-bold text-text-primary">R$ 89,50</p>
+                        <p class="text-warning text-sm mt-1">-3% vs mês anterior</p>
+                    </div>
+                    <div class="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Average Rating -->
+            <div class="bg-surface p-6 rounded-xl shadow-card hover:shadow-card-hover transition-standard">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-text-secondary text-sm font-medium">Avaliação Média</p>
+                        <p class="text-2xl font-montserrat font-bold text-text-primary">4.2</p>
+                        <p class="text-success text-sm mt-1">+0.1 vs mês anterior</p>
+                    </div>
+                    <div class="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Category -->
+            <div class="bg-surface p-6 rounded-xl shadow-card hover:shadow-card-hover transition-standard">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-text-secondary text-sm font-medium">Categoria Líder</p>
+                        <p class="text-2xl font-montserrat font-bold text-text-primary">Proteínas</p>
+                        <p class="text-success text-sm mt-1">35% do mercado</p>
+                    </div>
+                    <div class="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <!-- Price vs Popularity Chart -->
+            <div class="bg-surface p-6 rounded-xl shadow-card">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-lg font-montserrat font-semibold text-text-primary">Preço vs Popularidade</h3>
+                    <button class="text-text-secondary hover:text-accent transition-standard">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="h-64 bg-primary rounded-lg flex items-center justify-center border border-border">
+                    <svg class="w-full h-full p-4" viewBox="0 0 400 200">
+                        <!-- Chart Background -->
+                        <rect width="400" height="200" fill="#ffffff" rx="8"/>
+                        
+                        <!-- Grid Lines -->
+                        <g stroke="#e9ecef" stroke-width="1" opacity="0.5">
+                            <line x1="50" y1="20" x2="50" y2="180"/>
+                            <line x1="50" y1="180" x2="380" y2="180"/>
+                            <line x1="50" y1="140" x2="380" y2="140"/>
+                            <line x1="50" y1="100" x2="380" y2="100"/>
+                            <line x1="50" y1="60" x2="380" y2="60"/>
+                        </g>
+                        
+                        <!-- Data Points -->
+                        <g fill="#6a9cde" opacity="0.7">
+                            <circle cx="80" cy="160" r="4"/>
+                            <circle cx="120" cy="140" r="6"/>
+                            <circle cx="160" cy="120" r="5"/>
+                            <circle cx="200" cy="100" r="7"/>
+                            <circle cx="240" cy="80" r="4"/>
+                            <circle cx="280" cy="90" r="6"/>
+                            <circle cx="320" cy="70" r="5"/>
+                            <circle cx="360" cy="60" r="4"/>
+                        </g>
+                        
+                        <!-- Trend Line -->
+                        <path d="M80,160 Q200,100 360,60" stroke="#6a9cde" stroke-width="2" fill="none"/>
+                        
+                        <!-- Labels -->
+                        <text x="25" y="185" font-size="12" fill="#3b3b40" text-anchor="middle">R$ 0</text>
+                        <text x="25" y="145" font-size="12" fill="#3b3b40" text-anchor="middle">R$ 100</text>
+                        <text x="25" y="105" font-size="12" fill="#3b3b40" text-anchor="middle">R$ 200</text>
+                        <text x="25" y="65" font-size="12" fill="#3b3b40" text-anchor="middle">R$ 300</text>
+                        
+                        <text x="80" y="195" font-size="12" fill="#3b3b40" text-anchor="middle">0</text>
+                        <text x="200" y="195" font-size="12" fill="#3b3b40" text-anchor="middle">5K</text>
+                        <text x="320" y="195" font-size="12" fill="#3b3b40" text-anchor="middle">10K</text>
+                        
+                        <text x="200" y="15" font-size="14" fill="#000000" text-anchor="middle" font-weight="600">Avaliações</text>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Rating Distribution Chart -->
+            <div class="bg-surface p-6 rounded-xl shadow-card">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-lg font-montserrat font-semibold text-text-primary">Distribuição de Avaliações</h3>
+                    <button class="text-text-secondary hover:text-accent transition-standard">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="space-y-4">
+                    <!-- 5 Stars -->
+                    <div class="flex items-center">
+                        <div class="flex items-center w-20">
+                            <span class="text-sm font-medium text-text-primary mr-2">5</span>
+                            <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1 mx-4">
+                            <div class="bg-border rounded-full h-2">
+                                <div class="bg-success h-2 rounded-full" style="width: 65%"></div>
+                            </div>
+                        </div>
+                        <span class="text-sm font-medium text-text-primary w-12 text-right">65%</span>
+                    </div>
+                    
+                    <!-- 4 Stars -->
+                    <div class="flex items-center">
+                        <div class="flex items-center w-20">
+                            <span class="text-sm font-medium text-text-primary mr-2">4</span>
+                            <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1 mx-4">
+                            <div class="bg-border rounded-full h-2">
+                                <div class="bg-accent h-2 rounded-full" style="width: 20%"></div>
+                            </div>
+                        </div>
+                        <span class="text-sm font-medium text-text-primary w-12 text-right">20%</span>
+                    </div>
+                    
+                    <!-- 3 Stars -->
+                    <div class="flex items-center">
+                        <div class="flex items-center w-20">
+                            <span class="text-sm font-medium text-text-primary mr-2">3</span>
+                            <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1 mx-4">
+                            <div class="bg-border rounded-full h-2">
+                                <div class="bg-warning h-2 rounded-full" style="width: 10%"></div>
+                            </div>
+                        </div>
+                        <span class="text-sm font-medium text-text-primary w-12 text-right">10%</span>
+                    </div>
+                    
+                    <!-- 2 Stars -->
+                    <div class="flex items-center">
+                        <div class="flex items-center w-20">
+                            <span class="text-sm font-medium text-text-primary mr-2">2</span>
+                            <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1 mx-4">
+                            <div class="bg-border rounded-full h-2">
+                                <div class="bg-error h-2 rounded-full" style="width: 3%"></div>
+                            </div>
+                        </div>
+                        <span class="text-sm font-medium text-text-primary w-12 text-right">3%</span>
+                    </div>
+                    
+                    <!-- 1 Star -->
+                    <div class="flex items-center">
+                        <div class="flex items-center w-20">
+                            <span class="text-sm font-medium text-text-primary mr-2">1</span>
+                            <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1 mx-4">
+                            <div class="bg-border rounded-full h-2">
+                                <div class="bg-error h-2 rounded-full" style="width: 2%"></div>
+                            </div>
+                        </div>
+                        <span class="text-sm font-medium text-text-primary w-12 text-right">2%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Table Section -->
+        <div class="bg-surface rounded-xl shadow-card overflow-hidden">
+            <div class="p-6 border-b border-border">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                    <h3 class="text-lg font-montserrat font-semibold text-text-primary mb-4 md:mb-0">
+                        Produtos em Destaque
+                    </h3>
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center space-x-2">
+                            <label class="text-sm text-text-secondary">Mostrar:</label>
+                            <select class="border border-border rounded px-2 py-1 text-sm focus:ring-2 focus:ring-accent focus:border-accent">
+                                <option value="10">10</option>
+                                <option value="25" selected>25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                        <a href="{{ url_for('dados') }}" class="text-accent hover:text-blue-500 text-sm font-medium transition-standard">
+                            Ver todos os dados →
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Desktop Table -->
+            <div class="hidden md:block overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-secondary">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider cursor-pointer hover:bg-surface transition-standard">
+                                <div class="flex items-center">
+                                    Produto
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </div>
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider cursor-pointer hover:bg-surface transition-standard">
+                                <div class="flex items-center">
+                                    Categoria
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </div>
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider cursor-pointer hover:bg-surface transition-standard">
+                                <div class="flex items-center">
+                                    Preço
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </div>
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider cursor-pointer hover:bg-surface transition-standard">
+                                <div class="flex items-center">
+                                    Avaliação
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </div>
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider cursor-pointer hover:bg-surface transition-standard">
+                                <div class="flex items-center">
+                                    Reviews
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </div>
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">
+                                Ações
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-primary divide-y divide-border">
+                        <!-- Product Row 1 -->
+                        <tr class="hover:bg-secondary transition-standard">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <img src="https://images.unsplash.com/photo-1558601069-5433c2baf2df" 
+                                         alt="Whey Protein Isolado Premium - suplemento proteico em pó" 
+                                         class="w-10 h-10 rounded-lg object-cover mr-3"
+                                         loading="lazy"
+                                         onerror="this.src='https://images.unsplash.com/photo-1724160167630-a33086ddb552'; this.onerror=null;">
+                                    <div>
+                                        <div class="text-sm font-medium text-text-primary">Whey Protein Isolado Premium</div>
+                                        <div class="text-sm text-text-secondary">Growth Supplements</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 py-1 text-xs font-medium bg-accent/10 text-accent rounded-full">Proteínas</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-data text-text-primary">R$ 149,90</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="flex">
+                                        <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="ml-2 text-sm text-text-secondary">4.8</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-data text-text-primary">2.847</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <button class="text-accent hover:text-blue-500 transition-standard mr-3">Ver</button>
+                                <button class="text-text-secondary hover:text-accent transition-standard">Comparar</button>
+                            </td>
+                        </tr>
+
+                        <!-- Product Row 2 -->
+                        <tr class="hover:bg-secondary transition-standard">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <img src="https://images.unsplash.com/photo-1724160167630-a33086ddb552" 
+                                         alt="Creatina Monohidratada Pura - suplemento para ganho de força" 
+                                         class="w-10 h-10 rounded-lg object-cover mr-3"
+                                         loading="lazy"
+                                         onerror="this.src='https://images.unsplash.com/photo-1558601069-5433c2baf2df'; this.onerror=null;">
+                                    <div>
+                                        <div class="text-sm font-medium text-text-primary">Creatina Monohidratada Pura</div>
+                                        <div class="text-sm text-text-secondary">Max Performance</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 py-1 text-xs font-medium bg-success/10 text-success rounded-full">Creatina</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-data text-text-primary">R$ 89,90</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="flex">
+                                        <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-border" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="ml-2 text-sm text-text-secondary">4.3</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-data text-text-primary">1.523</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <button class="text-accent hover:text-blue-500 transition-standard mr-3">Ver</button>
+                                <button class="text-text-secondary hover:text-accent transition-standard">Comparar</button>
+                            </td>
+                        </tr>
+
+                        <!-- Product Row 3 -->
+                        <tr class="hover:bg-secondary transition-standard">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <img src="https://images.unsplash.com/photo-1701859080817-6b5ceb30867c" 
+                                         alt="Pré-treino Extreme Energy - suplemento energético" 
+                                         class="w-10 h-10 rounded-lg object-cover mr-3"
+                                         loading="lazy"
+                                         onerror="this.src='https://images.unsplash.com/photo-1593095948071-474c5cc2989d?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;">
+                                    <div>
+                                        <div class="text-sm font-medium text-text-primary">Pré-treino Extreme Energy</div>
+                                        <div class="text-sm text-text-secondary">Power Nutrition</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 py-1 text-xs font-medium bg-warning/10 text-warning rounded-full">Pré-treino</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-data text-text-primary">R$ 79,90</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="flex">
+                                        <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-border" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="ml-2 text-sm text-text-secondary">4.1</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-data text-text-primary">987</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <button class="text-accent hover:text-blue-500 transition-standard mr-3">Ver</button>
+                                <button class="text-text-secondary hover:text-accent transition-standard">Comparar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Mobile Cards -->
+            <div class="md:hidden space-y-4 p-4">
+                <!-- Product Card 1 -->
+                <div class="bg-primary border border-border rounded-lg p-4">
+                    <div class="flex items-start space-x-3">
+                        <img src="https://images.unsplash.com/photo-1593095948071-474c5cc2989d?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+                             alt="Whey Protein Isolado Premium - suplemento proteico em pó" 
+                             class="w-16 h-16 rounded-lg object-cover"
+                             loading="lazy"
+                             onerror="this.src='https://images.pexels.com/photos/4397840/pexels-photo-4397840.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;">
+                        <div class="flex-1">
+                            <h4 class="font-medium text-text-primary">Whey Protein Isolado Premium</h4>
+                            <p class="text-sm text-text-secondary">Growth Supplements</p>
+                            <div class="flex items-center mt-2">
+                                <span class="px-2 py-1 text-xs font-medium bg-accent/10 text-accent rounded-full">Proteínas</span>
+                                <span class="ml-2 text-sm font-data text-text-primary">R$ 149,90</span>
+                            </div>
+                            <div class="flex items-center justify-between mt-3">
+                                <div class="flex items-center">
+                                    <div class="flex">
+                                        <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="ml-2 text-sm text-text-secondary">4.8 (2.847)</span>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button class="text-accent hover:text-blue-500 text-sm transition-standard">Ver</button>
+                                    <button class="text-text-secondary hover:text-accent text-sm transition-standard">Comparar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 2 -->
+                <div class="bg-primary border border-border rounded-lg p-4">
+                    <div class="flex items-start space-x-3">
+                        <img src="https://images.pexels.com/photos/4397840/pexels-photo-4397840.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" 
+                             alt="Creatina Monohidratada Pura - suplemento para ganho de força" 
+                             class="w-16 h-16 rounded-lg object-cover"
+                             loading="lazy"
+                             onerror="this.src='https://images.unsplash.com/photo-1593095948071-474c5cc2989d?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;">
+                        <div class="flex-1">
+                            <h4 class="font-medium text-text-primary">Creatina Monohidratada Pura</h4>
+                            <p class="text-sm text-text-secondary">Max Performance</p>
+                            <div class="flex items-center mt-2">
+                                <span class="px-2 py-1 text-xs font-medium bg-success/10 text-success rounded-full">Creatina</span>
+                                <span class="ml-2 text-sm font-data text-text-primary">R$ 89,90</span>
+                            </div>
+                            <div class="flex items-center justify-between mt-3">
+                                <div class="flex items-center">
+                                    <div class="flex">
+                                        <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-border" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="ml-2 text-sm text-text-secondary">4.3 (1.523)</span>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button class="text-accent hover:text-blue-500 text-sm transition-standard">Ver</button>
+                                    <button class="text-text-secondary hover:text-accent text-sm transition-standard">Comparar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="px-6 py-4 border-t border-border">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                    <div class="text-sm text-text-secondary mb-4 sm:mb-0">
+                        Mostrando <span class="font-medium">1</span> a <span class="font-medium">25</span> de <span class="font-medium">15.247</span> resultados
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button class="px-3 py-2 text-sm font-medium text-text-secondary bg-primary border border-border rounded-md hover:bg-surface transition-standard" disabled>
+                            Anterior
+                        </button>
+                        <button class="px-3 py-2 text-sm font-medium text-primary bg-accent border border-accent rounded-md">
+                            1
+                        </button>
+                        <button class="px-3 py-2 text-sm font-medium text-text-secondary bg-primary border border-border rounded-md hover:bg-surface transition-standard">
+                            2
+                        </button>
+                        <button class="px-3 py-2 text-sm font-medium text-text-secondary bg-primary border border-border rounded-md hover:bg-surface transition-standard">
+                            3
+                        </button>
+                        <span class="px-3 py-2 text-sm text-text-secondary">...</span>
+                        <button class="px-3 py-2 text-sm font-medium text-text-secondary bg-primary border border-border rounded-md hover:bg-surface transition-standard">
+                            610
+                        </button>
+                        <button class="px-3 py-2 text-sm font-medium text-text-secondary bg-primary border border-border rounded-md hover:bg-surface transition-standard">
+                            Próximo
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script>
+        // Filter panel toggle for mobile
+        document.getElementById('filter-toggle').addEventListener('click', function() {
+            const filterPanel = document.getElementById('filter-panel');
+            const chevron = this.querySelector('svg');
+            
+            filterPanel.classList.toggle('hidden');
+            chevron.classList.toggle('rotate-180');
+        });
+
+        // Filter functionality
+        document.getElementById('apply-filters').addEventListener('click', function() {
+            // Simulate filter application
+            console.log('Applying filters...');
+            // In a real application, this would trigger an API call
+            alert('Filtros aplicados com sucesso!');
+        });
+
+        document.getElementById('reset-filters').addEventListener('click', function() {
+            // Reset all filter inputs
+            document.getElementById('search-input').value = '';
+            document.getElementById('category-filter').value = '';
+            document.getElementById('price-filter').value = '';
+            document.getElementById('rating-filter').value = '';
+            
+            console.log('Filters reset');
+            alert('Filtros limpos!');
+        });
+
+        document.getElementById('save-filters').addEventListener('click', function() {
+            // Simulate saving filters
+            console.log('Saving filters...');
+            alert('Filtros salvos com sucesso!');
+        });
+
+        // Table sorting simulation
+        document.querySelectorAll('th[class*="cursor-pointer"]').forEach(header => {
+            header.addEventListener('click', function() {
+                console.log('Sorting by:', this.textContent.trim());
+                // In a real application, this would trigger table sorting
+            });
+        });
+
+        // Pagination simulation
+        document.querySelectorAll('button[class*="px-3 py-2"]').forEach(button => {
+            if (button.textContent.match(/^\d+$/)) {
+                button.addEventListener('click', function() {
+                    console.log('Going to page:', this.textContent);
+                    // In a real application, this would load the selected page
+                });
+            }
+        });
+
+        // Export data simulation
+        document.querySelector('button[class*="bg-accent"]').addEventListener('click', function() {
+            if (this.textContent.includes('Exportar')) {
+                console.log('Exporting data...');
+                alert('Dados exportados com sucesso!');
+            }
+        });
+
+        // Update data simulation
+        document.querySelector('button[class*="border-accent"]').addEventListener('click', function() {
+            if (this.textContent.includes('Atualizar')) {
+                console.log('Updating data...');
+                alert('Dados atualizados!');
+            }
+        });
+
+        // Product action buttons
+        document.querySelectorAll('button').forEach(button => {
+            if (button.textContent === 'Ver') {
+                button.addEventListener('click', function() {
+                    console.log('Viewing product details');
+                    alert('Abrindo detalhes do produto...');
+                });
+            } else if (button.textContent === 'Comparar') {
+                button.addEventListener('click', function() {
+                    console.log('Adding to comparison');
+                    alert('Produto adicionado à comparação!');
+                });
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Auto-update timestamp simulation
+        setInterval(function() {
+            const now = new Date();
+            const timeString = now.toLocaleString('pt-BR', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            const timestampElement = document.querySelector('p:contains("Última atualização")');
+            if (timestampElement) {
+                timestampElement.textContent = `Última atualização: ${timeString}`;
+            }
+        }, 60000); // Update every minute
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+
+{% endblock %}

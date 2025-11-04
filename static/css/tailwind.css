@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Primary Colors */
+  --color-primary: #ffffff; /* white - Pure foundation that maximizes content focus */
+  --color-secondary: #f8f9fa; /* gray-50 - Subtle surface differentiation */
+  --color-accent: #6a9cde; /* blue-400 - Strategic attention director */
+  
+  /* Background & Surface */
+  --color-background: #ffffff; /* white - Clean analytical environment */
+  --color-surface: #f1f3f4; /* gray-100 - Gentle elevation indicator */
+  
+  /* Text Colors */
+  --color-text-primary: #000000; /* black - Maximum readability for critical data */
+  --color-text-secondary: #3b3b40; /* gray-700 - Reduced emphasis for supporting information */
+  
+  /* Status Colors */
+  --color-success: #28a745; /* green-600 - Positive performance indicators */
+  --color-warning: #ffc107; /* yellow-400 - Attention-requiring data points */
+  --color-error: #dc3545; /* red-600 - Critical alerts and negative indicators */
+  
+  /* Border & Divider */
+  --color-border: #e9ecef; /* gray-200 - Strategic borders for data structure */
+  
+  /* Shadow Values */
+  --shadow-minimal: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-none: none;
+  
+  /* Animation Timing */
+  --transition-fast: 150ms ease-out;
+  --transition-normal: 200ms ease-out;
+  --transition-slow: 300ms ease-out;
+}
+
+@layer base {
+  body {
+    font-family: 'Lato', sans-serif;
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  .font-data {
+    font-family: 'Source Code Pro', monospace;
+  }
+}
+
+@layer components {
+  .card-elevation {
+    box-shadow: var(--shadow-minimal);
+    transition: box-shadow var(--transition-fast);
+  }
+  
+  .card-elevation:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+  }
+  
+  .interactive-element {
+    transition: all var(--transition-fast);
+  }
+  
+  .interactive-element:hover {
+    transform: translateY(-1px);
+  }
+  
+  .data-table-border {
+    border: 1px solid var(--color-border);
+  }
+  
+  .loading-skeleton {
+    background: linear-gradient(90deg, var(--color-surface) 25%, var(--color-secondary) 50%, var(--color-surface) 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+  }
+  
+  @keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+  
+  .tooltip {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-normal), visibility var(--transition-normal);
+    transition-delay: 200ms;
+  }
+  
+  .tooltip.show {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+@layer utilities {
+  .text-data {
+    font-family: 'Source Code Pro', monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn var(--transition-normal) ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .animate-slide-down {
+    animation: slideDown var(--transition-slow) ease-out;
+  }
+  
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
