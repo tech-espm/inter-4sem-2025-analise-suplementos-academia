@@ -1,2 +1,5 @@
 Flask[async]==3.0.3
 requests==2.31.0
+selenium
+mysql-connector-python
+sqlalchemy
