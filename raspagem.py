@@ -1,4 +1,6 @@
 import banco
+import time
+import re
 from selenium import webdriver
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
@@ -27,7 +29,7 @@ def categorias():
         banco.inserirCategoria(span_textos[i])
 
 def formatos():
-    formatos = ["Pó", "Bebida", "Alimento", "Cápsula", "Comprimido"]
+    formatos = ["Pó", "Líquido", "Alimento", "Cápsula", "Comprimido"]
     for formato in formatos:
         banco.inserirFormato(formato)
     return formatos
@@ -39,22 +41,30 @@ def obter_preco_original():
                 By.XPATH, "//div[(contains(@class,'topo') or contains(@class,'box')) and (contains(@class,'direito') or contains(@class,'Right') or contains(@class,'right'))]"
             ))
         )
-
+        
         spans = container.find_elements(By.XPATH, ".//span[contains(.,'R$')]")
-
-        valores = []
-
-        for span in spans:
-            txt = span.get_attribute("innerText").replace("R$", "").replace(".", "").replace(",", ".").strip()
+        
+        try:
+            valor = float(spans[0].get_attribute("innerText").replace("R$", "").replace(".", "").replace(",", ".").strip())
+        
+        except:  
             try:
-                valores.append(float(txt))
+                elemento = driver.find_element(By.XPATH, "//span[contains(@class,'preco')]")
+                valor = float(elemento.get_attribute("innerText").replace("R$", "").replace(".", "").replace(",", ".").strip())
+            
             except:
-                pass
+                try:
+                    elemento = driver.find_element(By.XPATH, "//p[contains(@class,'preco')]")
+                    
+                    texto = elemento.text.strip()
+                    limpo = re.sub(r"[^0-9,\.]", "", texto)
+                    
+                    valor = float(limpo.replace(",", "."))
+                
+                except:
+                    valor = 0
 
-        if not valores:
-            return 0
-
-        return max(valores)
+        return valor
 
     except:
         return 0
@@ -87,6 +97,7 @@ def obter_links_categoria(url):
 
     while True:
         driver.get(f"{url}?pg={page}")
+        time.sleep(0.3)
         produtos = driver.find_elements(By.CSS_SELECTOR, "a.card__name")
 
         if not produtos:
@@ -101,21 +112,33 @@ def obter_links_categoria(url):
 
     return links
 
-def detectar_formato(driver):
+def detectar_formato():
     try:
-        spans = driver.find_elements((By.CSS_SELECTOR, "th.table-header span"))
-
-        if len(spans) < 2:
-                return None
-
-        conteudo = spans[1].text.strip().lower()
+        try:
+            th_porcao = driver.find_element(By.XPATH, "//th[@id='porcao']")
+            span_porcao = th_porcao.find_element(By.XPATH, ".//span[contains(.,'Porção')]")
+            conteudo = span_porcao.get_attribute("innerText").strip().lower()
+        
+        except:
+            try:
+                td_porcao = driver.find_element(By.XPATH, "//td[contains(.,'Porção')]")
+                conteudo = td_porcao.get_attribute("innerText").strip().lower()
+                
+            except:
+                try:
+                    span_porcao = driver.find_element(By.XPATH, "//span[contains(.,'Porção')]")
+                    conteudo = span_porcao.get_attribute("innerText").strip().lower()
+                
+                except:
+                    span_porcao = driver.find_element(By.CSS_SELECTOR, "span.tabelaNutricional-td-topo")
+                    conteudo = span_porcao.get_attribute("innerText").strip().lower()
 
         if not conteudo:
             return None
 
-        palavras_capsulas = ["cápsula", "capsula", "cápsulas", "capsulas", "caps", "caps.", "capsule", "capsules"]
-        palavras_comprimidos = ["comprimido", "comprimidos", "comp.", "comp "]
-        palavras_po = ["dosador", "dosadores", "scoop", "medidor"]
+        palavras_capsulas = ["cápsula", "capsula", "cápsulas", "capsulas", "caps", "caps.", "capsule", "capsules", "cápsulas)", "cápsula)"]
+        palavras_comprimidos = ["comprimido", "comprimidos", "comp.", "comp ", "comprimidos)", "comprimido)"]
+        palavras_po = ["dosador", "dosadores", "scoop", "medidor", "dosadores)", "dosador)"]
         
         if any(p in conteudo for p in palavras_capsulas):
             return "Cápsula"
@@ -123,8 +146,8 @@ def detectar_formato(driver):
         if any(p in conteudo for p in palavras_comprimidos):
             return "Comprimido"
 
-        if " ml" in conteudo or "ml " in conteudo or "ml)" in conteudo:
-            return "Bebida"
+        if " ml" in conteudo or "ml " in conteudo or "ml)" in conteudo or "30ml" in conteudo:
+            return "Líquido"
 
         if any(p in conteudo for p in palavras_po):
             return "Pó"
@@ -134,8 +157,7 @@ def detectar_formato(driver):
 
         return None
     
-    except Exception as e:
-        # print("Erro ao detectar formato:", e)
+    except:
         return None
 
 def produtos(formatos):
@@ -160,7 +182,8 @@ def produtos(formatos):
             visitados.add(href)
             
             driver.get(href)
-
+            time.sleep(0.3) # para ter ctz q a pag carregou
+            
             nome = wait.until(
                 EC.presence_of_element_located((
                     By.XPATH, "//div[(contains(@class,'topo') or contains(@class,'box')) and (contains(@class,'direito') or contains(@class,'Right') or contains(@class,'right'))]/h1[(contains(@class, 'nome') or contains(@class, 'Nome') or contains(@class, 'titulo'))]"
@@ -168,12 +191,19 @@ def produtos(formatos):
             ).text.strip()
 
             preco = obter_preco_original()
+            
+            if preco == 0:
+                print(f"{nome} tem preço 0")
+            else:
+                print(f"{nome} --- {preco}")
 
             try:
-                avals = int(
-                    driver.find_element(By.XPATH, "//div[contains(@class,'ts-rating-title')]/p")
-                    .text.replace("(","").replace(")","")
-                )
+                avals = wait.until(
+                    EC.presence_of_element_located(
+                        (By.XPATH, "//div[contains(@class,'ts-rating-title')]/p")
+                    ))
+                avals = int(avals.text.replace("(","").replace(")",""))
+                
             except:
                 print("Avals não obtidos.")
                 avals = 0
@@ -183,37 +213,41 @@ def produtos(formatos):
 
             try:
                 e5, e4, e3, e2, e1 = obter_estrelas(estrelas, avals)
+                
             except:
                 e5, e4, e3, e2, e1 = 0, 0, 0, 0, 0
-                print(avals)
-                print(nome, "deu ruim estrelas")
+                print(f"Estrelas de {nome} não obtidas.")
             
             try:
-                emedia = float(
-                    driver.find_element(By.CSS_SELECTOR, "span.ts-v-rating-note_value")
-                    .text.strip()
-                )
+                emedia = wait.until(
+                    EC.presence_of_element_located(
+                        (By.CSS_SELECTOR, "span.ts-v-rating-note_value")
+                    ))
+                emedia = float(emedia.text.strip())
+                
             except:
                 try:
-                    emedia = (e5 + e4 + e3 + e2 + e1) / 5
+                    total_avals = sum(estrelas)
+                    soma_ponderada = sum((i + 1) * estrelas[i] for i in range(5))
+                    emedia = soma_ponderada / total_avals
                 except:
                     emedia = 0
-            
+    
             try:
-                recom = int(
-                    driver.find_element(By.CSS_SELECTOR, "span.ts-v-percentage-label")
-                    .get_attribute("innerText").replace("%", "").strip()
-                )
+                recom = driver.find_element(By.CSS_SELECTOR, "span.ts-v-percentage-label")
+                recom = int(recom.get_attribute("innerText").replace("%", "").strip())
+                
             except:
                 recom = 0
                 print("Recomendações não encontradas.")
             
-            formato_texto = detectar_formato(driver)
+            formato_texto = detectar_formato()
             
             if formato_texto:
                 formato = formatos.index(formato_texto) + 1
             else:
-                formato = 1
+                print("Formato não detectado.")
+                formato = 2
 
             lista_produtos.append({
                 "nome": str(nome),
