@@ -66,9 +66,27 @@ def inserirCatprod(id_produto: int, id_categoria: int):
     try:
         with Session(engine) as sessao, sessao.begin():
             
-            sessao.execute(text("INSERT INTO cats_prods (id_produto, id_categoria) VALUES (:id_produto, id_categoria)"), {"id_produto": id_produto, "id_categoria": id_categoria})
+            sessao.execute(text("INSERT INTO cats_prods (id_produto, id_categoria) VALUES (:id_produto, :id_categoria)"), {"id_produto": id_produto, "id_categoria": id_categoria})
             return True
         
     except Exception as e:
         print(f"Erro ao inserir relação categoria-produto: {e}")
+        return make_response(jsonify({"erro": "Erro interno do servidor"}), 500)
+
+def obterIdProduto(nome: str):
+    try:
+        with Session(engine) as sessao:
+            parametros = {
+				'nome': nome
+			}
+            
+            registro = sessao.execute(text("SELECT id FROM produto WHERE nome = :nome"), parametros).first()
+            
+            if registro == None:
+                print("Produto não encontrado.")
+            else:
+                return registro.id
+            
+    except Exception as e:
+        print(f"Erro ao obter o ID do produto: {e}")
         return make_response(jsonify({"erro": "Erro interno do servidor"}), 500)

@@ -1,6 +1,7 @@
 import banco
 import time
 import re
+from config import url
 from selenium import webdriver
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
@@ -12,7 +13,7 @@ driver = webdriver.Chrome()
 wait = WebDriverWait(driver, 20)
 
 def categorias():
-    driver.get('https://www.gsuplementos.com.br/')
+    driver.get(url)
     
     spans = driver.find_elements(
     By.XPATH, "//ul[contains(@class,'subMenuFull')]/li/div//a/span"
@@ -161,7 +162,7 @@ def detectar_formato():
         return None
 
 def produtos(formatos):
-    driver.get('https://www.gsuplementos.com.br/')
+    driver.get(url)
 
     categorias = [c.get_attribute("href") for c in 
                   driver.find_elements(
@@ -169,17 +170,11 @@ def produtos(formatos):
                     )]
     
     visitados = set()
-    lista_produtos = []
 
     for i in range(8):
         todos_links = obter_links_categoria(categorias[i])
         
         for href in todos_links:
-            
-            if href in visitados:
-                continue
-            
-            visitados.add(href)
             
             driver.get(href)
             time.sleep(0.3) # para ter ctz q a pag carregou
@@ -189,6 +184,12 @@ def produtos(formatos):
                     By.XPATH, "//div[(contains(@class,'topo') or contains(@class,'box')) and (contains(@class,'direito') or contains(@class,'Right') or contains(@class,'right'))]/h1[(contains(@class, 'nome') or contains(@class, 'Nome') or contains(@class, 'titulo'))]"
                     ))
             ).text.strip()
+
+            if href in visitados:
+                banco.inserirCatprod(banco.obterIdProduto(str(nome)), i+1)
+                continue
+            
+            visitados.add(href)
 
             preco = obter_preco_original()
             
@@ -248,23 +249,10 @@ def produtos(formatos):
             else:
                 print("Formato não detectado.")
                 formato = 2
-
-            lista_produtos.append({
-                "nome": str(nome),
-                "preco": float(preco),
-                "e5": int(e5),
-                "e4": int(e4),
-                "e3": int(e3),
-                "e2": int(e2),
-                "e1": int(e1),
-                "emedia": float(emedia),
-                "avals": int(avals),
-                "recom": int(recom),
-                "id_form": int(formato)
-            })
             
-    for produto in lista_produtos:
-        banco.inserirProduto(produto["nome"], produto["preco"], produto["e5"], produto["e4"], produto["e3"], produto["e2"], produto["e1"], produto["emedia"], produto["avals"], produto["recom"], produto["id_form"])
+            banco.inserirProduto(str(nome), float(preco), int(e5), int(e4), int(e3), int(e2), int(e1), float(emedia), int(avals), int(recom), int(formato))
+
+            banco.inserirCatprod(banco.obterIdProduto(str(nome)), i+1)
 
 categorias()
 lformatos = formatos()
