@@ -16,7 +16,7 @@ DROP TABLE IF EXISTS `suplementos`.`produto`;
 
 CREATE TABLE IF NOT EXISTS `suplementos`.`produto` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `nome` VARCHAR(100) NOT NULL,
+  `nome` VARCHAR(200) NOT NULL,
   `preco_unitario` FLOAT NOT NULL,
   `estrelas_5` INT NOT NULL,
   `estrelas_4` INT NOT NULL,
