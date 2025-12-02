@@ -90,3 +90,92 @@ def obterIdProduto(nome: str):
     except Exception as e:
         print(f"Erro ao obter o ID do produto: {e}")
         return make_response(jsonify({"erro": "Erro interno do servidor"}), 500)
+
+def obterProduto(id: int):
+    try:
+        with Session(engine) as sessao:
+            parametros = {
+				'id': id
+			}
+            
+            registro = sessao.execute(text(
+                """
+                SELECT 
+                    p.nome,
+                    preco_unitario,
+                    estrelas_media,
+                    total_avaliacoes,
+                    recomendacoes,
+                    f.nome as "formato",
+                    GROUP_CONCAT(c.nome ORDER BY c.nome SEPARATOR ", ") as "categorias"
+                FROM produto p
+                INNER JOIN formato f on f.id = p.id_formato
+                LEFT JOIN cats_prods cp ON cp.id_produto = p.id
+                LEFT JOIN categoria c ON c.id = cp.id_categoria
+                WHERE p.id = :id;
+                """
+                ), parametros).first()
+            
+            if registro == None:
+                print("Produto não encontrado.")
+            else:
+                return {
+                    "id": int(id),
+                    "nome": str(registro.nome),
+                    "preco": float(registro.preco_unitario),
+                    "estrelas_media": float(registro.estrelas_media),
+                    "avaliacoes": int(registro.total_avaliacoes),
+                    "recomendacoes": int(registro.recomendacoes),
+                    "formato": str(registro.formato),
+                    "categorias": str(registro.categorias)
+                }
+            
+    except Exception as e:
+        print(f"Erro ao obter o produto: {e}")
+        return make_response(jsonify({"erro": "Erro interno do servidor"}), 500)
+
+def listarProdutos():
+    try:
+        with Session(engine) as sessao:
+            registros = sessao.execute(text(
+                """
+                SELECT
+                    p.id,
+                    p.nome,
+                    preco_unitario,
+                    estrelas_media,
+                    total_avaliacoes,
+                    recomendacoes,
+                    f.nome as "formato",
+                    GROUP_CONCAT(c.nome ORDER BY c.nome SEPARATOR ", ") as "categorias"
+                FROM produto p
+                INNER JOIN formato f on f.id = p.id_formato
+                LEFT JOIN cats_prods cp ON cp.id_produto = p.id
+                LEFT JOIN categoria c ON c.id = cp.id_categoria
+                GROUP BY 
+                    p.id, p.nome, p.preco_unitario, p.estrelas_media,
+                    p.total_avaliacoes, f.nome;
+                """
+                ))
+            
+            if registros == None:
+                print("Produtos não encontrados.")
+            else:
+                lista_produtos = []
+                for produto in registros:
+                    lista_produtos.append(
+                        {
+                        "id": int(produto.id),
+                        "nome": str(produto.nome),
+                        "preco": float(produto.preco_unitario),
+                        "estrelas_media": float(produto.estrelas_media),
+                        "avaliacoes": int(produto.total_avaliacoes),
+                        "recomendacoes": int(produto.recomendacoes),
+                        "formato": str(produto.formato),
+                        "categorias": str(produto.categorias)
+                    })
+                return lista_produtos
+            
+    except Exception as e:
+        print(f"Erro ao listar produtos: {e}")
+        return make_response(jsonify({"erro": "Erro interno do servidor"}), 500)
