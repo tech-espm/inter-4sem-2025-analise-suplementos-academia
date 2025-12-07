@@ -1260,6 +1260,11 @@ h1, h2, h3, h4, h5, h6 {
   background-color: rgb(248 249 250 / var(--tw-bg-opacity, 1));
 }
 
+.bg-grey {
+  --tw-bg-opacity: 1;
+  background-color: #e5e9eb;
+}
+
 .bg-success{
   --tw-bg-opacity: 1;
   background-color: rgb(40 167 69 / var(--tw-bg-opacity, 1));
