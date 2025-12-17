@@ -1,6 +1,8 @@
-from flask import Flask, render_template, json, request, Response
-import config
+from flask import Flask, render_template, json, request, Response, send_file, abort
 from datetime import datetime
+import config
+import os
+import banco
 
 app = Flask(__name__)
 
@@ -31,26 +33,17 @@ def registrar():
 
 @app.get('/obterDados')
 def obterDados():
-    dados = [
-        { 'dia': '10/09', 'valor': 80 },
-        { 'dia': '11/09', 'valor': 92 },
-        { 'dia': '12/09', 'valor': 90 },
-        { 'dia': '13/09', 'valor': 101 },
-        { 'dia': '14/09', 'valor': 105 },
-        { 'dia': '15/09', 'valor': 100 },
-        { 'dia': '16/09', 'valor': 64 },
-        { 'dia': '17/09', 'valor': 78 },
-        { 'dia': '18/09', 'valor': 93 },
-        { 'dia': '19/09', 'valor': 110 }
-    ];
+    dados = banco.listarProdutos()
     return json.jsonify(dados)
 
-@app.post('/criar')
-def criar():
-    dados = request.json
-    print(dados['id'])
-    print(dados['nome'])
-    return Response(status=204)
+
+@app.get('/exportarDados')
+def exportarDados():
+    csv_path = os.path.join(app.root_path, 'produtos.csv')
+    if not os.path.exists(csv_path):
+        abort(404)
+
+    return send_file(csv_path, mimetype='text/csv', as_attachment=True)
 
 if __name__ == '__main__':
     app.run(host=config.host, port=config.port)

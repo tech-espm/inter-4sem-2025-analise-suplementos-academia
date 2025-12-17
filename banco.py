@@ -146,6 +146,11 @@ def listarProdutos():
                     estrelas_media,
                     total_avaliacoes,
                     recomendacoes,
+                    estrelas_5,
+                    estrelas_4,
+                    estrelas_3,
+                    estrelas_2,
+                    estrelas_1,
                     f.nome as "formato",
                     GROUP_CONCAT(c.nome ORDER BY c.nome SEPARATOR ", ") as "categorias"
                 FROM produto p
@@ -171,6 +176,11 @@ def listarProdutos():
                         "estrelas_media": float(produto.estrelas_media),
                         "avaliacoes": int(produto.total_avaliacoes),
                         "recomendacoes": int(produto.recomendacoes),
+                        "estrelas_5": int(produto.estrelas_5),
+                        "estrelas_4": int(produto.estrelas_4),
+                        "estrelas_3": int(produto.estrelas_3),
+                        "estrelas_2": int(produto.estrelas_2),
+                        "estrelas_1": int(produto.estrelas_1),
                         "formato": str(produto.formato),
                         "categorias": str(produto.categorias)
                     })
@@ -178,4 +188,39 @@ def listarProdutos():
             
     except Exception as e:
         print(f"Erro ao listar produtos: {e}")
+        return make_response(jsonify({"erro": "Erro interno do servidor"}), 500)
+
+def inserirValoresPerdidos():
+    try:
+        atualizacoes = {
+            33: 95,
+            34: 95,
+            77: 99,
+            78: 99,
+            94: 99,
+            142: 98,
+            143: 98,
+            144: 96,
+            145: 98,
+            146: 93,
+        }
+
+        with Session(engine) as sessao, sessao.begin():
+            for id_produto, novo_valor in atualizacoes.items():
+                parametros = {"id": id_produto, "recom": novo_valor}
+                sessao.execute(
+                    text("UPDATE produto SET recomendacoes = :recom WHERE id = :id"),
+                    parametros
+                )
+        
+        with Session(engine) as sessao, sessao.begin():
+            sessao.execute(
+                text("UPDATE produto SET estrelas_media = :e_media WHERE id = :id"),
+                {"id": 45, "e_media": 4.0}
+            )
+
+        return True
+
+    except Exception as e:
+        print(f"Erro ao atualizar recomendacoes: {e}")
         return make_response(jsonify({"erro": "Erro interno do servidor"}), 500)
