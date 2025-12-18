@@ -5,3 +5,4 @@ mysql-connector-python
 sqlalchemy
 pandas
 unidecode
+scikit-learn
